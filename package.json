@@ -1,0 +1,96 @@
+{
+  "name": "pkg-mate",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/index.js",
+  "module": "dist/index.esm.js",
+  "bin": {
+    "pkg-mate": "lib/bin/pkg-mate.js",
+    "pm": "lib/bin/pkg-mate.js"
+  },
+  "scripts": {
+    "clean:lib": "rimraf lib/*",
+    "build": "npm run clean:lib && rollup -c",
+    "build:watch": "npm run clean:lib && rollup -c -w",
+    "compile": "npm run clean:lib && tsc",
+    "compile:watch": "npm run clean:lib && tsc -w",
+    "format": "prettier --write \"src/**/*.{js,ts,tsx}\"",
+    "format:check": "prettier --list-different \"src/**/*.{js,ts,tsx}\"",
+    "lint": "tslint -c tslint.json \"src/**/*.{ts,tsx}\"",
+    "lint:fix": "tslint -c tslint.json \"src/**/*.{ts,tsx}\" --fix",
+    "precommit": "lint-staged",
+    "commitmsg": "commitlint -E GIT_PARAMS",
+    "test": "jest",
+    "release": "standard-version"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "tests/.*\\.ts$",
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/.history/"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
+  },
+  "lint-staged": {
+    "src/**/*.{js,ts,tsx}": [
+      "npm run format",
+      "npm run lint:fix",
+      "git add"
+    ]
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "files": [
+    "LICENSE",
+    "dist",
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/forsigner/pkg-mate.git"
+  },
+  "author": "forsigner",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://gitlab.com/forsigner/pkg-mate/issues"
+  },
+  "homepage": "https://gitlab.com/forsigner/pkg-mate#README",
+  "devDependencies": {
+    "@commitlint/cli": "^7.0.0",
+    "@commitlint/config-conventional": "^7.0.1",
+    "@types/jest": "^23.3.1",
+    "@types/node": "^10.7.1",
+    "husky": "^0.14.3",
+    "jest": "^23.5.0",
+    "lint-staged": "^7.2.2",
+    "prettier": "^1.14.2",
+    "rimraf": "^2.6.2",
+    "rollup": "^0.64.1",
+    "rollup-plugin-typescript": "^0.8.1",
+    "standard-version": "^4.4.0",
+    "ts-jest": "^23.1.3",
+    "tslint": "^5.11.0",
+    "tslint-config-prettier": "^1.14.0",
+    "tslint-eslint-rules": "^5.4.0",
+    "tslint-plugin-prettier": "^1.3.0",
+    "typescript": "^3.0.1"
+  },
+  "dependencies": {
+    "commander": "^2.17.1",
+    "npm": "latest",
+    "yarn": "latest"
+  }
+}
