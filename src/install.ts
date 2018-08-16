@@ -1,4 +1,3 @@
-import path from 'path'
 import { CommanderStatic } from 'commander'
 import cp from 'child_process'
 

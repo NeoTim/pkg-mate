@@ -1,6 +1,6 @@
 import cp from 'child_process'
-
-import pkg from '../package.json'
+import { join } from 'path'
+import { readFileSync } from 'fs'
 
 enum Registry {
   npm = 'https://registry.npmjs.org',
@@ -11,12 +11,19 @@ enum Registry {
   rednpm = 'http://registry.mirror.cqupt.edu.cn',
 }
 
-const { peerDependencies = {} } = pkg
-const registry = Registry.alibaba
-const pkgs = Object.keys(peerDependencies).join(' ')
-const command = `yarn add --no-progress --peer --no-lockfile ${pkgs} --registry ${registry}`
+function getPeerDepencies() {
+  const pkgPath = join(process.cwd(), 'package.json')
+  const pkg = JSON.parse(readFileSync(pkgPath, 'utf8'))
+  const { peerDependencies = {} } = pkg
+  return peerDependencies
+}
 
 export default () => {
+  const registry = Registry.alibaba
+  const peerDependencies = getPeerDepencies()
+  const pkgs = Object.keys(peerDependencies).join(' ')
+  const command = `yarn add --no-progress --peer --no-lockfile ${pkgs} --registry ${registry}`
+
   if (!pkgs) {
     console.log('no peerDependencies in package.json')
     return
